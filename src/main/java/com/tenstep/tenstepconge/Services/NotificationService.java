@@ -3,13 +3,14 @@ package com.tenstep.tenstepconge.Services;
 import com.tenstep.tenstepconge.dao.entities.Notification;
 import com.tenstep.tenstepconge.dao.repositories.NotificatinRepository;
 import com.tenstep.tenstepconge.dao.repositories.UserRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class NotificationService implements INotificationService{
-    private final NotificatinRepository notificatinRepository;
-    private final DemandeDeCongeService demandeDeCongeService;
-    private final NotificatinRepository notificatinRepository;
+
+    private NotificatinRepository notificatinRepository ;
 
     @Override
     public Notification createNotification(Notification notification) {

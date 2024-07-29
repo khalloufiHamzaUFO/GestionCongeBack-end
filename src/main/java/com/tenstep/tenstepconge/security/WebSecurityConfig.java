@@ -30,6 +30,8 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(Registry -> Registry
 
                         .requestMatchers("/").permitAll()
+                        .requestMatchers("/DemandeCongeController/**").permitAll()
+
                         .requestMatchers("/UserRestController/**").permitAll()
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/verify").permitAll()

@@ -1,0 +1,8 @@
+
+{	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(ВЁ—ґю€€€€8Ё§МЌП2
+£
+java:S1186)"АAdd a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(МҐэ ю€€€€8д§МЌП2
+Ю
+java:S1186."АAdd a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(шиЄґ8е§МЌП2
+V
+java:S1068"9Remove this unused "notificatinRepository" private field.(Ш¶кв8х§МЌП2

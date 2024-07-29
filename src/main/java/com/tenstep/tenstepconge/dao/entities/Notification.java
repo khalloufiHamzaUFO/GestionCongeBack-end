@@ -1,5 +1,7 @@
 package com.tenstep.tenstepconge.dao.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -15,7 +17,7 @@ import java.time.LocalDate;
 @Builder
 public class Notification {
     @Id
-    private String idNotif;
+    private String idNotif;  // MongoDB uses String as ID type by default
     private String titre;
     private String message;
     private LocalDate date;
@@ -24,5 +26,6 @@ public class Notification {
     private User utilisateur;
 
     @DBRef
+    @JsonIgnore
     private DemandeDeConge demandeConge;
 }

@@ -1,48 +1,72 @@
 package com.tenstep.tenstepconge.Services;
 
+import com.tenstep.tenstepconge.dao.entities.DemandeDeConge;
+import com.tenstep.tenstepconge.dao.entities.EtatConge;
 import com.tenstep.tenstepconge.dao.entities.Notification;
+import com.tenstep.tenstepconge.dao.entities.User;
+import com.tenstep.tenstepconge.dao.repositories.DemandeCongeRepository;
 import com.tenstep.tenstepconge.dao.repositories.NotificatinRepository;
 import com.tenstep.tenstepconge.dao.repositories.UserRepository;
+import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.UUID;
 
+@Service
 public class NotificationService implements INotificationService{
     private final NotificatinRepository notificatinRepository;
-    private final DemandeDeCongeService demandeDeCongeService;
-    private final NotificatinRepository notificatinRepository;
+    private final DemandeCongeRepository demandeCongeRepository;
+    private final UserRepository userRepository;
 
-    @Override
-    public Notification createNotification(Notification notification) {
-        return null;
+    public NotificationService(NotificatinRepository notificatinRepository, DemandeCongeRepository demandeCongeRepository, UserRepository userRepository) {
+        this.notificatinRepository = notificatinRepository;
+        this.demandeCongeRepository = demandeCongeRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
-    public List<Notification> addAllNotif(List<Notification> notificationList) {
-        return null;
+    public Notification createNotification(DemandeDeConge demandeDeConge, EtatConge etatConge) {
+        User u = demandeDeConge.getUtilisateur();
+        Notification notification = new Notification();
+        notification.setIdNotif(UUID.randomUUID().toString().split("-")[0]);
+        notification.setUtilisateur(u);
+        notification.setDate(LocalDate.now());
+        notification.setMessage("HelloTesting");
+        notification.setTitre(etatConge.name());
+
+        notification.setDemandeConge(demandeDeConge);
+
+        return notificatinRepository.save(notification);
+    }
+
+    @Override
+    public List<Notification> GetNotificationByUser(String uId) {
+        return notificatinRepository.findAllByUtilisateurId(uId);
     }
 
     @Override
     public Notification editNotification(Notification notification) {
-        return null;
+        return notificatinRepository.save(notification);
     }
 
     @Override
     public List<Notification> findAll() {
-        return null;
+        return notificatinRepository.findAll();
     }
 
     @Override
     public Notification findById(String id) {
-        return null;
+        return notificatinRepository.findById(id).get();
     }
 
     @Override
     public void deleteByID(String id) {
-
+        notificatinRepository.deleteById(id);
     }
 
     @Override
     public void delete(Notification notification) {
-
+        notificatinRepository.delete(notification);
     }
 }

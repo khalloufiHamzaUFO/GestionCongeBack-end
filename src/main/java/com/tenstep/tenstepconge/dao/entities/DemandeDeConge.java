@@ -1,5 +1,6 @@
 package com.tenstep.tenstepconge.dao.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -28,6 +29,7 @@ public class DemandeDeConge {
     @DBRef
     private User responsable;
 
+    @JsonIgnore
     @DBRef
     private List<Notification> notifications;
 }

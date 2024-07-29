@@ -1,11 +1,13 @@
 package com.tenstep.tenstepconge.dao.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -33,10 +35,10 @@ public class User {
     private String verificationToken;
 
     @DBRef
-    private List<DemandeDeConge> demandes;
+    private List<DemandeDeConge> demandes = new ArrayList<>();
 
     @DBRef
-    private List<Notification> notifications;
+    private List<Notification> notifications = new ArrayList<>();
 
     public boolean isEnabled() {
         return enabled;

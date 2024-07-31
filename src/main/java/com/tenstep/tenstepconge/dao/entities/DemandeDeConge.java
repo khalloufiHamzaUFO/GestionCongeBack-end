@@ -1,5 +1,6 @@
 package com.tenstep.tenstepconge.dao.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -20,16 +21,17 @@ public class DemandeDeConge {
     private String id;
     private String motif;
     private EtatConge etat;  // "EN ATTENTE", "APPROUVÉ", "REFUSÉ"
+
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "UTC")
     private LocalDate dateDebut;
+
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "UTC")
     private LocalDate dateFin;
 
     @DBRef
+    @JsonIgnore
     private User utilisateur;
 
-    @DBRef
-    private User responsable;
-
-    @JsonIgnore
     @DBRef
     private List<Notification> notifications;
 }

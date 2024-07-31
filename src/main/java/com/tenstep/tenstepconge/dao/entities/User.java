@@ -1,5 +1,6 @@
 package com.tenstep.tenstepconge.dao.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 import org.springframework.data.annotation.Id;
@@ -35,9 +36,11 @@ public class User {
     private String verificationToken;
 
     @DBRef
+    @JsonIgnore
     private List<DemandeDeConge> demandes = new ArrayList<>();
 
     @DBRef
+    @JsonIgnore
     private List<Notification> notifications = new ArrayList<>();
 
     public boolean isEnabled() {

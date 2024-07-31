@@ -51,7 +51,6 @@ public class AuthController {
             authService.lastLogin(request.getEmail());
             return ResponseEntity.ok(loginResponse);
         } catch (Exception e) {
-            // Catch the specific exception and rethrow it as InvalidCredentials
             throw new InvalidCredentials("Invalid credentials: " + e.getMessage());
         }
     }

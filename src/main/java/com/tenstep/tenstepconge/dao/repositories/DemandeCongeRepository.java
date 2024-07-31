@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface DemandeCongeRepository  extends MongoRepository<DemandeDeConge, String> {
+
     List<DemandeDeConge> findAllByUtilisateurId(String id);
     List<DemandeDeConge> findByUtilisateurId(String utilisateurId);
     List<DemandeDeConge> findByDateDebutBetween(LocalDate startDate, LocalDate endDate);

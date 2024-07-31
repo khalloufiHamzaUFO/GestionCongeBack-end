@@ -70,4 +70,27 @@ public class GlobalExceptionHandler {
 
         return new ResponseEntity<ErrorObject>(errorObject, HttpStatus.NOT_ACCEPTABLE);
     }
+
+    @ExceptionHandler(PeriodOverlaps.class)
+    public ResponseEntity<ErrorObject> handlePeriodOverlaps(PeriodOverlaps ex, WebRequest request) {
+
+        ErrorObject errorObject = new ErrorObject();
+
+        errorObject.setStatusCode(HttpStatus.NOT_ACCEPTABLE.value());
+        errorObject.setMessage(ex.getMessage());
+        errorObject.setTimestamp(new Date());
+
+        return new ResponseEntity<ErrorObject>(errorObject, HttpStatus.NOT_ACCEPTABLE);
+    }
+    @ExceptionHandler(CannotBeEditedException.class)
+    public ResponseEntity<ErrorObject> handleCannotBeEditedException(CannotBeEditedException ex, WebRequest request) {
+
+        ErrorObject errorObject = new ErrorObject();
+
+        errorObject.setStatusCode(HttpStatus.NOT_ACCEPTABLE.value());
+        errorObject.setMessage(ex.getMessage());
+        errorObject.setTimestamp(new Date());
+
+        return new ResponseEntity<ErrorObject>(errorObject, HttpStatus.NOT_ACCEPTABLE);
+    }
 }

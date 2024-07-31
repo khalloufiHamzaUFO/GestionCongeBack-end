@@ -18,56 +18,46 @@ public class DemandeRestController {
     @Autowired
     IDemandeDeCongeService iDemandeDeCongeService;
 
-    @PostMapping("/create/{userId}")
-    public ResponseEntity<DemandeDeConge> createDemandeDeConge(@RequestBody DemandeDeConge demandeDeConge, @PathVariable String userId) {
-        DemandeDeConge createdDemande = iDemandeDeCongeService.createDemandeDeConge(demandeDeConge, userId);
+    @PostMapping("/create/{id}")
+    public ResponseEntity<DemandeDeConge> createDemandeDeConge(@RequestBody DemandeDeConge demandeDeConge, @PathVariable String id) {
+        DemandeDeConge createdDemande = iDemandeDeCongeService.createDemandeDeConge(demandeDeConge, id);
         return ResponseEntity.ok(createdDemande);
     }
-    @PostMapping("/addAll")
-    public ResponseEntity<List<DemandeDeConge>> addAllDemandeDeConge(@RequestBody List<DemandeDeConge> demandeDeConges) {
-        List<DemandeDeConge> addedDemandes = iDemandeDeCongeService.addAllDemandeDeConge(demandeDeConges);
-        return ResponseEntity.ok(addedDemandes);
-    }
 
-    @PutMapping("/edit")
-    public ResponseEntity<DemandeDeConge> editDemandeDeConge(@RequestBody DemandeDeConge demandeDeConge) {
-        DemandeDeConge editedDemande = iDemandeDeCongeService.editDemandeDeConge(demandeDeConge);
+    @PutMapping("/edit/{id}")
+    public ResponseEntity<DemandeDeConge> editDemandeDeConge(@RequestBody DemandeDeConge demandeDeConge, @PathVariable String id) {
+        DemandeDeConge editedDemande = iDemandeDeCongeService.editDemandeDeConge(demandeDeConge,id);
         return ResponseEntity.ok(editedDemande);
     }
 
-    @PutMapping("/changeState")
-    public ResponseEntity<DemandeDeConge> changeState(@RequestParam String id, @RequestParam EtatConge etat) {
-        DemandeDeConge updatedDemande = iDemandeDeCongeService.ChangeState(id, etat);
-        return ResponseEntity.ok(updatedDemande);
-    }
-
     @GetMapping("/findAll")
-    public ResponseEntity<List<DemandeDeConge>> findAll() {
-        List<DemandeDeConge> demandes = iDemandeDeCongeService.findAll();
+    public ResponseEntity<List<DemandeDeConge>> findAllDemands() {
+        List<DemandeDeConge> demandes = iDemandeDeCongeService.findAllDemands();
         return ResponseEntity.ok(demandes);
     }
 
-    @GetMapping("/findById")
-    public ResponseEntity<DemandeDeConge> findById(@RequestParam String id) {
+    @GetMapping("/findByUser/{userId}")
+    public ResponseEntity<List<DemandeDeConge>> findAllDemandsByUser(@PathVariable String userId) {
+        List<DemandeDeConge> demandes = iDemandeDeCongeService.findAllDemandsByUser(userId);
+        return ResponseEntity.ok(demandes);
+    }
+
+    @GetMapping("/findById/{id}")
+    public ResponseEntity<DemandeDeConge> findById(@PathVariable String id) {
         DemandeDeConge demande = iDemandeDeCongeService.findById(id);
         return ResponseEntity.ok(demande);
     }
 
-    @DeleteMapping("/deleteById")
-    public ResponseEntity<Void> deleteById(@RequestParam String id) {
+    @DeleteMapping("/deleteById/{id}")
+    public ResponseEntity<Void> deleteById(@PathVariable String id) {
         iDemandeDeCongeService.deleteByID(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/delete")
     public ResponseEntity<Void> delete(@RequestBody DemandeDeConge demandeDeConge) {
         iDemandeDeCongeService.delete(demandeDeConge);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/findAllByUtilisateurId")
-    public ResponseEntity<List<DemandeDeConge>> findAllByUtilisateurId(@RequestParam String id) {
-        List<DemandeDeConge> demandes = iDemandeDeCongeService.findAllByUtilisateurId(id);
-        return ResponseEntity.ok(demandes);
-    }
 }

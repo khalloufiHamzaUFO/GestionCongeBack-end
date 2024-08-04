@@ -62,7 +62,6 @@ public class DemandeDeCongeService implements IDemandeDeCongeService{
         // Create notification
         Notification notification = notificationService.createNotification(demandeDeConge, EtatConge.EN_ATTENTE);
 
-        // Ensure user's notifications list is not null
         if (user.getNotifications() == null) {
             user.setNotifications(new ArrayList<>());
         }
@@ -70,7 +69,6 @@ public class DemandeDeCongeService implements IDemandeDeCongeService{
 
         userRepository.save(user);
 
-        // Ensure demandeDeConge notifications list is not null
         if (demandeDeConge.getNotifications() == null) {
             demandeDeConge.setNotifications(new ArrayList<>());
         }
@@ -140,7 +138,6 @@ public class DemandeDeCongeService implements IDemandeDeCongeService{
 
     @Override
     public DemandeDeConge editDemandeDeCongeResponsable(DemandeDeConge demandeDeConge) {
-        // in this function i need to send notification to the
         return null;
     }
 

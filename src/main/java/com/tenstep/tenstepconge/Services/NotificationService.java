@@ -40,13 +40,13 @@ public class NotificationService implements INotificationService{
     }
 
     @Override
-    public List<Notification> GetNotificationByUser(String uId) {
-        return notificatinRepository.findAllByUtilisateurId(uId);
+    public Notification editNotification(Notification notification) {
+        return notificatinRepository.save(notification);
     }
 
     @Override
-    public Notification editNotification(Notification notification) {
-        return notificatinRepository.save(notification);
+    public List<Notification> getNotificationByUser(String uid) {
+        return notificatinRepository.findAllByUtilisateurId(uid);
     }
 
     @Override

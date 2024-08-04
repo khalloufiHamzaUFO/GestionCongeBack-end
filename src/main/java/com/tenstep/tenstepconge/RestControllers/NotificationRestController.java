@@ -1,15 +1,34 @@
 package com.tenstep.tenstepconge.RestControllers;
 
 import com.tenstep.tenstepconge.Services.INotificationService;
+import com.tenstep.tenstepconge.dao.entities.DemandeDeConge;
+import com.tenstep.tenstepconge.dao.entities.Notification;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @CrossOrigin(origins = "*")
 @RestController
 @AllArgsConstructor
 @RequestMapping("NotificationRestController")
 public class NotificationRestController {
+
+    @Autowired
     INotificationService notificationService;
+
+
+    @GetMapping("/findAll")
+    public ResponseEntity<List<Notification>> findAllNotifs() {
+        List<Notification> notifications = notificationService.findAll();
+        return ResponseEntity.ok(notifications);
+    }
+
+    @GetMapping("/findAllByUser")
+    public ResponseEntity<List<Notification>> findAllNotifs(@RequestParam String userId) {
+        List<Notification> notifications = notificationService.findAll();
+        return ResponseEntity.ok(notifications);
+    }
 }

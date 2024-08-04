@@ -31,7 +31,7 @@ public class WebSecurityConfig {
 
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/DemandeRestController/**").permitAll()
-                        .requestMatchers("/DemandeRestController/**").permitAll()
+                        .requestMatchers("/NotificationRestController/**").permitAll()
                         .requestMatchers("/UserRestController/**").permitAll()
                         .requestMatchers("/auth/login").permitAll()
                         .requestMatchers("/verify").permitAll()

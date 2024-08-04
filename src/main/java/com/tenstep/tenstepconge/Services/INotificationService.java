@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface INotificationService {
     Notification createNotification(DemandeDeConge demandeDeConge, EtatConge etatConge);
-    List<Notification> GetNotificationByUser(String s) ;
     Notification editNotification(Notification notification) ;
+    List<Notification> getNotificationByUser(String uid);
     List<Notification> findAll();
     Notification findById(String id);
     void deleteByID(String id);

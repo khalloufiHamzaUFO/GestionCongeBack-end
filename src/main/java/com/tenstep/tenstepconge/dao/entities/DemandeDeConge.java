@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Objects;
 
 @Document(collection = "DemandeDeConge")
 @Getter
@@ -16,7 +17,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class DemandeDeConge {
+public class DemandeDeConge{
     @Id
     private String id;
     private String motif;

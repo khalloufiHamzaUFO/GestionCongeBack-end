@@ -21,7 +21,7 @@ import java.util.List;
 @Builder
 public class User {
     @Id
-    private String id;;
+    private String id;
     private String nom;
     private String prenom;
     private Long cin;

@@ -18,5 +18,6 @@ public interface DemandeCongeRepository  extends MongoRepository<DemandeDeConge,
 
     List<DemandeDeConge> findByMotifContaining(String motif);
     List<DemandeDeConge> findByDateDebutBetweenAndDateFinBetween(LocalDate dateDebutStart, LocalDate dateDebutEnd);
+    List<DemandeDeConge> findAllByEtatAndDateDebutBefore(EtatConge etat, LocalDate date);
 
 }

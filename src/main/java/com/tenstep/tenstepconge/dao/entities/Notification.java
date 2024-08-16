@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @Builder
 public class Notification {
     @Id
-    private String idNotif;  // MongoDB uses String as ID type by default
+    private String idNotif;
     private String titre;
     private String message;
     private LocalDate date;

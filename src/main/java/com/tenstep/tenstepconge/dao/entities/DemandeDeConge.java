@@ -35,4 +35,7 @@ public class DemandeDeConge{
 
     @DBRef
     private List<Notification> notifications;
+
+    @DBRef
+    private TypeConge typeConge;
 }

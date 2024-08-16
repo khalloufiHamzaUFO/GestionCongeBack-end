@@ -26,4 +26,7 @@ public interface IDemandeDeCongeService {
     List<DemandeDeConge> findByDateFinBetween(LocalDate startDate, LocalDate endDate);
     List<DemandeDeConge> findByEtat(EtatConge etat);
     List<DemandeDeConge> findByMotifContaining(String motif);
+
+
+    DemandeDeConge approuverDemande(String demandeId);
 }

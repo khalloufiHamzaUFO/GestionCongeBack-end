@@ -28,7 +28,8 @@ public class DemandeDeCongeService implements IDemandeDeCongeService{
     private UserRepository userRepository;
     private NotificationService notificationService;
     private EmailSenderService emailSenderService;
-
+    @Autowired
+    private ISoldeCongeService soldeCongeService;
     @Override
     public DemandeDeConge createDemandeDeConge(DemandeDeConge demandeDeConge, String userId) {
         List<DemandeDeConge> demandeDeCongeList = demandeCongeRepository.findAllByUtilisateurId(userId);
@@ -228,6 +229,20 @@ public class DemandeDeCongeService implements IDemandeDeCongeService{
     @Override
     public List<DemandeDeConge> findByMotifContaining(String motif) {
         return null;
+    }
+
+    @Override
+    public DemandeDeConge approuverDemande(String demandeId) {
+        DemandeDeConge demande = demandeCongeRepository.findById(demandeId)
+                .orElseThrow(() -> new RuntimeException("Demande non trouvée"));
+
+        demande.setEtat(EtatConge.APPROUVE);
+        demandeCongeRepository.save(demande);
+
+        // Mise à jour du solde de congé
+        soldeCongeService.decrementerSolde(demande);
+
+        return demande;
     }
 
     @Scheduled(cron = "0 0 0 * * ?") // Executes daily at midnight

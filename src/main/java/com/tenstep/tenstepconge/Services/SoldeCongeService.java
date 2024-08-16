@@ -2,6 +2,7 @@ package com.tenstep.tenstepconge.Services;
 
 import com.tenstep.tenstepconge.dao.entities.DemandeDeConge;
 import com.tenstep.tenstepconge.dao.entities.SoldeConge;
+import com.tenstep.tenstepconge.dao.entities.User;
 import com.tenstep.tenstepconge.dao.repositories.SoldeCongeRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,28 @@ public class SoldeCongeService implements ISoldeCongeService{
 
     @Autowired
     private SoldeCongeRepository soldeCongeRepository;
+
+
+
+    @Override
+    public SoldeConge initializeSolde(User employe, int annee, int joursAlloues) {
+        SoldeConge soldeConge = new SoldeConge();
+        soldeConge.setUser(employe);
+        soldeConge.setAnnee(annee);
+        soldeConge.setJoursRestants(joursAlloues);
+        return soldeCongeRepository.save(soldeConge);
+    }
+
+    @Override
+    public SoldeConge updateSolde(SoldeConge soldeConge) {
+        return soldeCongeRepository.save(soldeConge);
+    }
+
+    @Override
+    public SoldeConge getSoldeByEmploye(String employeId) {
+        return soldeCongeRepository.findByUserId(employeId)
+                .orElseThrow(() -> new RuntimeException("Solde de congé non trouvé pour l'employé"));
+    }
 
     @Override
     public void decrementerSolde(DemandeDeConge demandeDeConge) {
@@ -31,5 +54,7 @@ public class SoldeCongeService implements ISoldeCongeService{
 
     @Override
     public SoldeConge findSoldeByUser(String userId) {
-        return soldeCongeRepository.findByUserId(userId);    }
+        return soldeCongeRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("Solde de congé non trouvé pour l'utilisateur"));
+    }
 }

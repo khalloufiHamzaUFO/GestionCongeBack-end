@@ -16,6 +16,8 @@ public class TypeConge {
     private String id;
 
     private String name;
-
+    private String description;
+    private int joursAlloues;
+    private Boolean isPaid;
     private List<DemandeDeConge> demandeDeConges;
 }

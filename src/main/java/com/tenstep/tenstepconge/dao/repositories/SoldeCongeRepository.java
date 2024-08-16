@@ -4,7 +4,11 @@ import com.tenstep.tenstepconge.dao.entities.DemandeDeConge;
 import com.tenstep.tenstepconge.dao.entities.SoldeConge;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
+import java.util.Optional;
+
 public interface SoldeCongeRepository  extends MongoRepository<SoldeConge, String> {
-    SoldeConge findByUserId(String userId);
+Optional<SoldeConge> findByUserId(String userId);
+
+
 
 }

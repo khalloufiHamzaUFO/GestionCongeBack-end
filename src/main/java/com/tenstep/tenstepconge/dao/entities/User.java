@@ -43,6 +43,9 @@ public class User {
     @JsonIgnore
     private List<Notification> notifications = new ArrayList<>();
 
+    @DBRef
+
+    private SoldeConge soldeConge;
     public boolean isEnabled() {
         return enabled;
     }

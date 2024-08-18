@@ -1,16 +1,17 @@
 package com.tenstep.tenstepconge.Services;
 
-import com.tenstep.tenstepconge.dao.entities.DemandeDeConge;
-import com.tenstep.tenstepconge.dao.entities.EtatConge;
-import com.tenstep.tenstepconge.dao.entities.Notification;
-import com.tenstep.tenstepconge.dao.entities.User;
+import com.tenstep.tenstepconge.EmailNotif.EmailSenderService;
+import com.tenstep.tenstepconge.EmailNotif.Model.MailStructure;
+import com.tenstep.tenstepconge.dao.entities.*;
 import com.tenstep.tenstepconge.dao.repositories.DemandeCongeRepository;
 import com.tenstep.tenstepconge.dao.repositories.UserRepository;
 import com.tenstep.tenstepconge.errors.CannotBeEditedException;
 import com.tenstep.tenstepconge.errors.PeriodOverlaps;
 import com.tenstep.tenstepconge.errors.UserNotFoundException;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,12 +21,15 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Slf4j
 @AllArgsConstructor
 public class DemandeDeCongeService implements IDemandeDeCongeService{
     private DemandeCongeRepository demandeCongeRepository;
     private UserRepository userRepository;
     private NotificationService notificationService;
-
+    private EmailSenderService emailSenderService;
+    @Autowired
+    private ISoldeCongeService soldeCongeService;
     @Override
     public DemandeDeConge createDemandeDeConge(DemandeDeConge demandeDeConge, String userId) {
         List<DemandeDeConge> demandeDeCongeList = demandeCongeRepository.findAllByUtilisateurId(userId);
@@ -76,6 +80,26 @@ public class DemandeDeCongeService implements IDemandeDeCongeService{
         demandeDeConge.setUtilisateur(user);
 
         return demandeCongeRepository.save(demandeDeConge);
+    }
+
+    @Override
+    public DemandeDeConge addDemandeDeConge(DemandeDeConge demandeDeConge) {
+        DemandeDeConge savedDemande = demandeCongeRepository.save(demandeDeConge);
+
+        List<User> responsables = userRepository.findUsersByRole(Roles.RESPONSABLE);
+
+        for (User responsable : responsables) {
+            MailStructure mailStructure = new MailStructure();
+            mailStructure.setSubject("Nouvelle demande de congé");
+            String message = "Une nouvelle demande de congé a été créée par " + demandeDeConge.getUtilisateur().getNom() + " " + demandeDeConge.getUtilisateur().getPrenom() + ".\n" +
+                    "Motif : " + demandeDeConge.getMotif() + "\n" +
+                    "Date de début : " + demandeDeConge.getDateDebut() + "\n" +
+                    "Date de fin : " + demandeDeConge.getDateFin();
+            mailStructure.setMessage(message);
+            emailSenderService.sendEmail(responsable.getEmail(), mailStructure);
+        }
+
+        return savedDemande;
     }
 
 
@@ -165,6 +189,74 @@ public class DemandeDeCongeService implements IDemandeDeCongeService{
     @Override
     public void delete(DemandeDeConge demandeDeConge) {
         demandeCongeRepository.delete(demandeDeConge);
+    }
+
+    @Override
+    public DemandeDeConge updateDemandeDeCongeStatus(String id, String status) {
+           try {
+            EtatConge etatConge = EtatConge.valueOf(status);
+            return demandeCongeRepository.findById(id)
+                    .map(demande -> {
+                        demande.setEtat(etatConge);
+                        return demandeCongeRepository.save(demande);
+                    })
+                    .orElse(null);
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException("Invalid status value: " + status);
+        }
+    }
+
+    @Override
+    public List<DemandeDeConge> findDemandeDeCongeByPeriod(LocalDate dateDebutStart, LocalDate dateDebutEnd) {
+        return null;
+    }
+
+    @Override
+    public List<DemandeDeConge> findByDateDebutBetween(LocalDate startDate, LocalDate endDate) {
+        return null;
+    }
+
+    @Override
+    public List<DemandeDeConge> findByDateFinBetween(LocalDate startDate, LocalDate endDate) {
+        return null;
+    }
+
+    @Override
+    public List<DemandeDeConge> findByEtat(EtatConge etat) {
+        return null;
+    }
+
+    @Override
+    public List<DemandeDeConge> findByMotifContaining(String motif) {
+        return null;
+    }
+
+    @Override
+    public DemandeDeConge approuverDemande(String demandeId) {
+        DemandeDeConge demande = demandeCongeRepository.findById(demandeId)
+                .orElseThrow(() -> new RuntimeException("Demande non trouvée"));
+
+        demande.setEtat(EtatConge.APPROUVE);
+        demandeCongeRepository.save(demande);
+
+        // Mise à jour du solde de congé
+        soldeCongeService.decrementerSolde(demande);
+
+        return demande;
+    }
+
+    @Scheduled(cron = "0 0 0 * * ?") // Executes daily at midnight
+    public void deleteOldPendingDemands() {
+        LocalDate now = LocalDate.now();
+        LocalDate thresholdDate = now.minusDays(7);
+
+        List<DemandeDeConge> oldPendingDemands = demandeCongeRepository.findAllByEtatAndDateDebutBefore(EtatConge.EN_ATTENTE, thresholdDate);
+        if (!oldPendingDemands.isEmpty()) {
+            for (DemandeDeConge demande : oldPendingDemands) {
+                log.info("Deleting old pending demand: {}", demande.getId());
+                demandeCongeRepository.delete(demande);
+            }
+        }
     }
 
 }

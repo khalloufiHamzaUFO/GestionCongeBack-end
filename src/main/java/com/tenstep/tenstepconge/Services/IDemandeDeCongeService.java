@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface IDemandeDeCongeService {
     DemandeDeConge createDemandeDeConge(DemandeDeConge demandeDeConge,String userId);
+    DemandeDeConge addDemandeDeConge(DemandeDeConge demandeDeConge);
 
     DemandeDeConge editDemandeDeConge(DemandeDeConge demandeDeConge,String userId) ;
     DemandeDeConge editDemandeDeCongeResponsable(DemandeDeConge demandeDeConge) ;
@@ -18,4 +19,14 @@ public interface IDemandeDeCongeService {
     DemandeDeConge findById(String id);
     void deleteByID(String id);
     void delete(DemandeDeConge demandeDeConge) ;
+
+    DemandeDeConge updateDemandeDeCongeStatus(String id, String status);
+    List<DemandeDeConge> findDemandeDeCongeByPeriod(LocalDate dateDebutStart, LocalDate dateDebutEnd);
+    List<DemandeDeConge> findByDateDebutBetween(LocalDate startDate, LocalDate endDate);
+    List<DemandeDeConge> findByDateFinBetween(LocalDate startDate, LocalDate endDate);
+    List<DemandeDeConge> findByEtat(EtatConge etat);
+    List<DemandeDeConge> findByMotifContaining(String motif);
+
+
+    DemandeDeConge approuverDemande(String demandeId);
 }

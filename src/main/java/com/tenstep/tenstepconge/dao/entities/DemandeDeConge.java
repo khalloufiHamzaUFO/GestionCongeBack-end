@@ -21,7 +21,7 @@ public class DemandeDeConge{
     @Id
     private String id;
     private String motif;
-    private EtatConge etat;  // "EN ATTENTE", "APPROUVÉ", "REFUSÉ"
+    private EtatConge etat;
 
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "UTC")
     private LocalDate dateDebut;
@@ -35,4 +35,7 @@ public class DemandeDeConge{
 
     @DBRef
     private List<Notification> notifications;
+
+    @DBRef
+    private TypeConge typeConge;
 }

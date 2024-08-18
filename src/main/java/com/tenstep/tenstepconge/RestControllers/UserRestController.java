@@ -20,8 +20,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-
-@CrossOrigin(origins = "*")
 @RestController
 @AllArgsConstructor
 @RequestMapping("UserRestController")
@@ -36,9 +34,9 @@ public class UserRestController {
         return iUserService.findByEmail(email);
     }
 
-    @GetMapping("findEtudiantByEcoleAndRole/{universite}/{role}")
-    List<User> findUserByRoles(@PathVariable("universite") String universite , @PathVariable("role") Roles role){
-        return iUserService.findUserByRoles(universite,role);
+    @GetMapping("findEtudiantByRole/{role}")
+    List<User> findUserByRoles(@PathVariable("role") Roles role){
+        return iUserService.findUserByRoles(role);
     }
 
     @PutMapping("updateUser")
@@ -75,6 +73,7 @@ public class UserRestController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/findUsers")
     List<User> getUsers(){
         return iUserService.getEtudiantUsers();

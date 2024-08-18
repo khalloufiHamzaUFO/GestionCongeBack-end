@@ -31,7 +31,6 @@ public class AuthController {
     private final AuthService authService;
     private final EmailService emailService;
 
-    @CrossOrigin(origins = "http://localhost:4200/auth/login", maxAge = 3600, allowCredentials = "true")
     @PostMapping("/auth/login")
     public ResponseEntity<LoginResponce> login(@RequestBody @Validated LoginRequest request) {
         if (request.getEmail() == null || request.getEmail().isEmpty() ||

@@ -30,15 +30,14 @@ public class WebSecurityConfig {
                 .authorizeHttpRequests(Registry -> Registry
 
                         .requestMatchers("/").permitAll()
+                        .requestMatchers("/auth/login").permitAll()
+                        .requestMatchers("/auth/register").permitAll()
+                        .requestMatchers("/reset-password/**").permitAll()
+                        .requestMatchers("/verify").permitAll()
                         .requestMatchers("/DemandeRestController/**").permitAll()
+                        .requestMatchers("/DocumentRestController/**").permitAll()
                         .requestMatchers("/NotificationRestController/**").permitAll()
                         .requestMatchers("/UserRestController/**").permitAll()
-                        .requestMatchers("/TypeCongeRestController/**").permitAll()
-                        .requestMatchers("/auth/login").permitAll()
-                        .requestMatchers("/verify").permitAll()
-                        .requestMatchers("/reset-password/**").permitAll()
-                        .requestMatchers("/auth/register").permitAll()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 );
         return http.build();

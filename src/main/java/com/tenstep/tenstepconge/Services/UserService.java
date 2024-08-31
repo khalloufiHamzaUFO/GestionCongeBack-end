@@ -64,7 +64,7 @@ public class UserService implements IUserService {
     }
 
     @Override
-    public List<User> findUserByRoles(String schoolName, Roles role) {
+    public List<User> findUserByRoles( Roles role) {
         List<User> etudiants = this.userRepo.findUsersByRole(role);
         List<User> finalEtudiants = new ArrayList<>();
         for(User etudiant : etudiants){
@@ -104,13 +104,8 @@ public class UserService implements IUserService {
 
     @Override
     public List<User> getEtudiantUsers() {
+        System.out.println("Tqqqest");
         List<User> allUsers = userRepo.findAll();
-
-        /*List<User> etudiantUsers = allUsers.stream()
-                .filter(user -> user.getRole() == Roles.ETUDIANT || user.getRole() == Roles.AGENTUNIVERSITE)
-                .sorted(Comparator.comparing(User::getEmail))
-                .collect(Collectors.toList());*/
-
         return allUsers;
     }
 

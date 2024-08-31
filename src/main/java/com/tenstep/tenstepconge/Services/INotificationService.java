@@ -14,4 +14,7 @@ public interface INotificationService {
     Notification findById(String id);
     void deleteByID(String id);
     void delete(Notification notification) ;
+    List<Notification> getNotificationsByDemandeConge(String demandeCongeId);
+
+
 }

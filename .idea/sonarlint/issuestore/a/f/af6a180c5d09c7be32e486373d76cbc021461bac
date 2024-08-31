@@ -1,0 +1,9 @@
+
+t	java:S120"ZRename this package name to match the regular expression '^[a-z_]+(\.[a-z_][a-z0-9_]*)*$'.(‚ÝÑ¶þÿÿÿÿ
+k
+java:S3655;"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(‡àúžüÿÿÿÿ
+@	java:S106"+Replace this use of System.out by a logger.(Ø¼¢ƒ
+U
+java:S1068":Remove this unused "demandeCongeRepository" private field.(ê‰­£þÿÿÿÿ
+H
+java:S1068"2Remove this unused "userRepository" private field.(¼²Æ÷

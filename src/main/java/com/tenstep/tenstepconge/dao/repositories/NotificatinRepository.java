@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface NotificatinRepository  extends MongoRepository<Notification, String> {
     List<Notification> findAllByUtilisateurId(String s);
+    List<Notification> findByDemandeConge_Id(String demandeCongeId);
+
 }

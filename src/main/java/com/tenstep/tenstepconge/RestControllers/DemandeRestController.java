@@ -3,27 +3,49 @@ package com.tenstep.tenstepconge.RestControllers;
 import com.tenstep.tenstepconge.Services.IDemandeDeCongeService;
 import com.tenstep.tenstepconge.dao.entities.DemandeDeConge;
 import com.tenstep.tenstepconge.dao.entities.EtatConge;
+import com.tenstep.tenstepconge.dao.repositories.DocumentRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
 import java.util.List;
 
-@CrossOrigin(origins = "*")
 @RestController
 @AllArgsConstructor
 @RequestMapping("DemandeRestController")
 public class DemandeRestController {
     @Autowired
     IDemandeDeCongeService iDemandeDeCongeService;
+    DocumentRepository documentRepository;
 
     @PostMapping("/create/{id}")
-    public ResponseEntity<DemandeDeConge> createDemandeDeConge(@RequestBody DemandeDeConge demandeDeConge, @PathVariable String id) {
-        DemandeDeConge createdDemande = iDemandeDeCongeService.createDemandeDeConge(demandeDeConge, id);
+    public ResponseEntity<DemandeDeConge> createDemandeDeConge(
+            @RequestParam("motif") String motif,
+            @RequestParam("dateDebut") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateDebut,
+            @RequestParam("dateFin") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate dateFin,
+            @RequestParam("files") MultipartFile[] files,
+            @PathVariable String id) {
+
+        DemandeDeConge demandeDeConge = DemandeDeConge.builder()
+                .motif(motif)
+                .dateDebut(dateDebut)
+                .dateFin(dateFin)
+                .build();
+
+        DemandeDeConge createdDemande = iDemandeDeCongeService.createDemandeDeConge(demandeDeConge, id, files);
         return ResponseEntity.ok(createdDemande);
     }
+
+
+
+
+
+
     @PostMapping("/add")
     public ResponseEntity<?> addDemandeDeConge(@RequestBody DemandeDeConge demandeDeConge) {
         try {
@@ -70,7 +92,7 @@ public class DemandeRestController {
     }
     @PutMapping("/updateStatus/{id}")
     public ResponseEntity<?> updateStatus(@PathVariable String id, @RequestParam String status) {
-        System.out.println("Received status: " + status); // Add this line for debugging
+        System.out.println("Received status: " + status);
         try {
             DemandeDeConge updatedDemande = iDemandeDeCongeService.updateDemandeDeCongeStatus(id, status);
             if (updatedDemande != null) {
@@ -82,5 +104,11 @@ public class DemandeRestController {
         }
     }
 
+
+
+    @GetMapping("/findAllWithUserDetails")
+    public List<DemandeDeConge> findAllWithUserDetails() {
+        return iDemandeDeCongeService.findAllDemandsWithUserDetails();
+    }
 
 }

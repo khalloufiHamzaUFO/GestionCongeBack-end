@@ -3,12 +3,13 @@ package com.tenstep.tenstepconge.Services;
 import com.tenstep.tenstepconge.dao.entities.DemandeDeConge;
 import com.tenstep.tenstepconge.dao.entities.EtatConge;
 import com.tenstep.tenstepconge.dao.entities.Notification;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.util.List;
 
 public interface IDemandeDeCongeService {
-    DemandeDeConge createDemandeDeConge(DemandeDeConge demandeDeConge,String userId);
+    DemandeDeConge createDemandeDeConge(DemandeDeConge demandeDeConge, String userId, MultipartFile[] files);
     DemandeDeConge addDemandeDeConge(DemandeDeConge demandeDeConge);
 
     DemandeDeConge editDemandeDeConge(DemandeDeConge demandeDeConge,String userId) ;
@@ -29,4 +30,8 @@ public interface IDemandeDeCongeService {
 
 
     DemandeDeConge approuverDemande(String demandeId);
+
+
+    // Add methods to include user details
+    List<DemandeDeConge> findAllDemandsWithUserDetails();
 }

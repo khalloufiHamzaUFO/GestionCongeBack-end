@@ -68,4 +68,12 @@ public class NotificationService implements INotificationService{
     public void delete(Notification notification) {
         notificatinRepository.delete(notification);
     }
+
+    @Override
+    public List<Notification> getNotificationsByDemandeConge(String demandeCongeId) {
+        return notificatinRepository.findByDemandeConge_Id(demandeCongeId);
+
+    }
+
+
 }

@@ -7,7 +7,7 @@ import java.util.List;
 public interface IUserService {
      User findByEmail(String email);
      User updateUser (User user);
-     List<User> findUserByRoles(String schoolName, Roles role);
+     List<User> findUserByRoles( Roles role);
      void changePassword(String email, String newPassword, String oldPssword);
      List<User> getEtudiantUsers();
      User enableOrDisable(String id);

@@ -7,7 +7,7 @@ import com.tenstep.tenstepconge.dao.entities.Notification;
 import java.util.List;
 
 public interface INotificationService {
-    Notification createNotification(DemandeDeConge demandeDeConge, EtatConge etatConge);
+    Notification createNotification(DemandeDeConge demandeDeConge, EtatConge etatConge, String message);
     Notification editNotification(Notification notification) ;
     List<Notification> getNotificationByUser(String uid);
     List<Notification> findAll();

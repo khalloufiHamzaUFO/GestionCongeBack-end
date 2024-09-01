@@ -26,18 +26,20 @@ public class NotificationService implements INotificationService{
     }
 
     @Override
-    public Notification createNotification(DemandeDeConge demandeDeConge, EtatConge etatConge) {
+    public Notification createNotification(DemandeDeConge demandeDeConge, EtatConge etatConge, String message) {
         User user = demandeDeConge.getUtilisateur();
-        System.out.println(user);
         Notification notification = new Notification();
         notification.setIdNotif(UUID.randomUUID().toString().split("-")[0]);
         notification.setUtilisateur(user);
         notification.setDate(LocalDate.now());
-        notification.setMessage("HelloTesting");
+        notification.setMessage(message);
         notification.setTitre(etatConge.name());
         notification.setDemandeConge(demandeDeConge);
+
+        // Ensure to save the notification and return it
         return notificatinRepository.save(notification);
     }
+
 
     @Override
     public Notification editNotification(Notification notification) {

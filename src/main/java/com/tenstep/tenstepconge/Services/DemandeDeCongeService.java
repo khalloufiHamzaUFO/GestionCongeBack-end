@@ -77,7 +77,7 @@ public class DemandeDeCongeService implements IDemandeDeCongeService{
         user.getDemandes().add(demandeDeConge);
 
         // Create notification
-        Notification notification = notificationService.createNotification(demandeDeConge, EtatConge.EN_ATTENTE);
+        Notification notification = notificationService.createNotification(demandeDeConge, EtatConge.EN_ATTENTE, "A new leave request has been created.");
         if (user.getNotifications() == null) {
             user.setNotifications(new ArrayList<>());
         }
@@ -180,7 +180,7 @@ public class DemandeDeCongeService implements IDemandeDeCongeService{
         originalDemande.setEtat(demandeDeConge.getEtat());
 
         // Create notification
-        Notification notification = notificationService.createNotification(originalDemande, demandeDeConge.getEtat());
+        Notification notification = notificationService.createNotification(demandeDeConge, EtatConge.EN_ATTENTE, "A new leave request has been created.");
 
         User user = userRepository.findUserById(userId);
 
@@ -235,18 +235,33 @@ public class DemandeDeCongeService implements IDemandeDeCongeService{
 
     @Override
     public DemandeDeConge updateDemandeDeCongeStatus(String id, String status) {
-           try {
+        try {
             EtatConge etatConge = EtatConge.valueOf(status);
+
             return demandeCongeRepository.findById(id)
                     .map(demande -> {
+                        // Update the status of the leave request
                         demande.setEtat(etatConge);
-                        return demandeCongeRepository.save(demande);
+                        DemandeDeConge updatedDemande = demandeCongeRepository.save(demande);
+
+                        // Create and save the notification with a custom message for status update
+                        Notification notification = notificationService.createNotification(updatedDemande, etatConge, "The status of your leave request has been updated.");
+
+                        // Optionally, add the notification to the leave request's notifications list
+                        if (updatedDemande.getNotifications() == null) {
+                            updatedDemande.setNotifications(new ArrayList<>());
+                        }
+                        updatedDemande.getNotifications().add(notification);
+
+                        // Save updated leave request with the new notification
+                        return demandeCongeRepository.save(updatedDemande);
                     })
                     .orElse(null);
         } catch (IllegalArgumentException e) {
             throw new IllegalArgumentException("Invalid status value: " + status);
         }
     }
+
 
     @Override
     public List<DemandeDeConge> findDemandeDeCongeByPeriod(LocalDate dateDebutStart, LocalDate dateDebutEnd) {

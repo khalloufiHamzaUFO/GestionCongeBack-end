@@ -105,7 +105,6 @@ public class DemandeRestController {
     }
 
 
-
     @GetMapping("/findAllWithUserDetails")
     public List<DemandeDeConge> findAllWithUserDetails() {
         return iDemandeDeCongeService.findAllDemandsWithUserDetails();

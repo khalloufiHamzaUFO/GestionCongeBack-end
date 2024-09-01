@@ -3,7 +3,7 @@
 _
 java:S6813"BRemove this field injection and use constructor injection instead.(êæÄŞ8ş‡‚÷™2
 T
-java:S6863e"2Set a HttpStatus code reflective of the operation.(ãÖ‘Ÿùÿÿÿÿ8€ˆ‚÷™2
+java:S6863e"2Set a HttpStatus code reflective of the operation.(ãÖ‘Ÿùÿÿÿÿ8µ´Ñ×š2
 b
 java:S46842"@Replace this persistent entity with a simple POJO or DTO object.(ÒÇ³óûÿÿÿÿ8ˆ‚÷™2
 H
@@ -13,7 +13,7 @@ java:S4684;"@Replace this persistent entity with a simple POJO or DTO object.(À
 ]
 java:S4684Y"@Replace this persistent entity with a simple POJO or DTO object.(š”÷ª8™ˆ‚÷™2
 C
-java:S1452^"&Remove usage of generic wildcard type.(ªşŒé8›ˆ‚÷™2
-L	java:S106_"+Replace this use of System.out by a logger.(‹ˆ²óıÿÿÿÿ8œˆ‚÷™2
+java:S1452^"&Remove usage of generic wildcard type.(ªşŒé8ŸµÑ×š2
+L	java:S106_"+Replace this use of System.out by a logger.(‹ˆ²óıÿÿÿÿ8¢µÑ×š2
 n
 java:S1128"LRemove this unused import 'com.tenstep.tenstepconge.dao.entities.EtatConge'.(æÊ¢Çûÿÿÿÿ8ì˜Ñ÷™2

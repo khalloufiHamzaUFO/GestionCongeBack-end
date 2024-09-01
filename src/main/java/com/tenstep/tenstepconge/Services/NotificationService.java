@@ -33,7 +33,7 @@ public class NotificationService implements INotificationService{
         notification.setUtilisateur(user);
         notification.setDate(LocalDate.now());
         notification.setMessage(message);
-        notification.setTitre(etatConge.name());
+        notification.setTitre(demandeDeConge.getMotif());
         notification.setDemandeConge(demandeDeConge);
 
         // Ensure to save the notification and return it

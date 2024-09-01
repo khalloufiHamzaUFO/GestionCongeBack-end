@@ -55,13 +55,10 @@ public class DemandeDeCongeService implements IDemandeDeCongeService{
             }
         }
 
-        // Set default status
         demandeDeConge.setEtat(EtatConge.EN_ATTENTE);
 
-        // Validate overlapping periods
         validateOverlap(demandeDeConge, userId);
 
-        // Set ID and associate user
         demandeDeConge.setId(UUID.randomUUID().toString().split("-")[0]);
 
         User user = userRepository.findUserById(userId);
@@ -69,21 +66,19 @@ public class DemandeDeCongeService implements IDemandeDeCongeService{
             throw new RuntimeException("User not found");
         }
 
-        demandeDeConge.setUtilisateur(user); // Set user on demandeDeConge
+        demandeDeConge.setUtilisateur(user);
 
         if (user.getDemandes() == null) {
             user.setDemandes(new ArrayList<>());
         }
         user.getDemandes().add(demandeDeConge);
 
-        // Create notification
         Notification notification = notificationService.createNotification(demandeDeConge, EtatConge.EN_ATTENTE, "A new leave request has been created.");
         if (user.getNotifications() == null) {
             user.setNotifications(new ArrayList<>());
         }
         user.getNotifications().add(notification);
 
-        // Save user
         userRepository.save(user);
 
         if (demandeDeConge.getNotifications() == null) {
@@ -91,11 +86,9 @@ public class DemandeDeCongeService implements IDemandeDeCongeService{
         }
         demandeDeConge.getNotifications().add(notification);
 
-        // Save demandeDeConge
         demandeDeConge = demandeCongeRepository.save(demandeDeConge);
 
-        // Email sending logic
-        List<User> responsables = userRepository.findUsersByRole(Roles.RESPONSABLE); // Assuming you have a method to find all responsible users
+        List<User> responsables = userRepository.findUsersByRole(Roles.RESPONSABLE);
         for (User responsable : responsables) {
             MailStructure mailStructure = new MailStructure();
             mailStructure.setSubject("Nouvelle demande de congé");
@@ -240,20 +233,16 @@ public class DemandeDeCongeService implements IDemandeDeCongeService{
 
             return demandeCongeRepository.findById(id)
                     .map(demande -> {
-                        // Update the status of the leave request
                         demande.setEtat(etatConge);
                         DemandeDeConge updatedDemande = demandeCongeRepository.save(demande);
 
-                        // Create and save the notification with a custom message for status update
                         Notification notification = notificationService.createNotification(updatedDemande, etatConge, "The status of your leave request has been updated.");
 
-                        // Optionally, add the notification to the leave request's notifications list
                         if (updatedDemande.getNotifications() == null) {
                             updatedDemande.setNotifications(new ArrayList<>());
                         }
                         updatedDemande.getNotifications().add(notification);
 
-                        // Save updated leave request with the new notification
                         return demandeCongeRepository.save(updatedDemande);
                     })
                     .orElse(null);
@@ -261,7 +250,6 @@ public class DemandeDeCongeService implements IDemandeDeCongeService{
             throw new IllegalArgumentException("Invalid status value: " + status);
         }
     }
-
 
     @Override
     public List<DemandeDeConge> findDemandeDeCongeByPeriod(LocalDate dateDebutStart, LocalDate dateDebutEnd) {
